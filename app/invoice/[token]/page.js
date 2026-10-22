@@ -1,6 +1,10 @@
 import { notFound } from "next/navigation";
 import { invoices, invoiceTotal, inr } from "@/data/data";
 
+export async function generateStaticParams() {
+  return invoices.map((i) => ({ token: i.token }));
+}
+
 export default async function PublicInvoice({ params }) {
   const { token } = await params;
   const inv = invoices.find((i) => i.token === token);
