@@ -1,49 +1,21 @@
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
-html {
-  height: 100%;
-}
-
-html,
+* { box-sizing: border-box; }
 body {
-  max-width: 100vw;
-  overflow-x: hidden;
-}
-
-body {
-  min-height: 100%;
-  display: flex;
-  flex-direction: column;
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-* {
-  box-sizing: border-box;
-  padding: 0;
   margin: 0;
+  font-family: system-ui, Arial, sans-serif;
+  background: #f5f6fa;
+  color: #222;
 }
-
-a {
-  color: inherit;
-  text-decoration: none;
-}
-
-@media (prefers-color-scheme: dark) {
-  html {
-    color-scheme: dark;
-  }
-}
+.container { max-width: 900px; margin: 0 auto; padding: 24px; }
+.cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin: 20px 0 32px; }
+.card { background: #fff; padding: 20px; border-radius: 12px; box-shadow: 0 1px 4px rgba(0,0,0,.08); }
+.card p { margin: 0; color: #666; }
+.card h2 { margin: 8px 0 0; font-size: 28px; }
+table { width: 100%; border-collapse: collapse; background: #fff; border-radius: 12px; overflow: hidden; }
+th, td { padding: 12px; text-align: left; border-bottom: 1px solid #eee; }
+th { background: #fafafa; }
+a { color: #4f46e5; }
+.badge { padding: 3px 10px; border-radius: 999px; font-size: 13px; }
+.badge.paid { background: #dcfce7; color: #166534; }
+.badge.unpaid { background: #fee2e2; color: #991b1b; }
+.invoice { background: #fff; margin-top: 24px; border-radius: 12px; }
+.grand { text-align: right; margin-top: 20px; }

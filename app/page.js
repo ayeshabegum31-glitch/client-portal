@@ -1,69 +1,59 @@
-import Image from "next/image";
-import styles from "./page.module.css";
+import Link from "next/link";
+import { invoices, quotes, invoiceTotal, inr } from "@/data/data";
 
-export default function Home() {
+export default function Dashboard() {
+  const totalRevenue = invoices
+    .filter((i) => i.status === "paid")
+    .reduce((sum, i) => sum + invoiceTotal(i), 0);
+  const invoicesIssued = invoices.length;
+  const pendingQuotes = quotes.filter((q) => q.status === "pending").length;
+
   return (
-    <div className={styles.page}>
-      <main className={styles.main}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className={styles.intro}>
-          <h1>
-            To get started, edit the{" "}
-            <code className={styles.code}>page.js</code> file.
-          </h1>
-          <p>
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
+    <main className="container">
+      <h1>Client Portal Dashboard</h1>
+
+      <div className="cards">
+        <div className="card">
+          <p>Total Revenue</p>
+          <h2>{inr(totalRevenue)}</h2>
         </div>
-        <div className={styles.ctas}>
-          <a
-            className={styles.primary}
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className={styles.logo}
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={14}
-            />
-            Deploy Now
-          </a>
-          <a
-            className={styles.secondary}
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+        <div className="card">
+          <p>Invoices Issued</p>
+          <h2>{invoicesIssued}</h2>
         </div>
-      </main>
-    </div>
+        <div className="card">
+          <p>Pending Quotes</p>
+          <h2>{pendingQuotes}</h2>
+        </div>
+      </div>
+
+      <h3>Invoices</h3>
+      <table>
+        <thead>
+          <tr>
+            <th>No.</th>
+            <th>Client</th>
+            <th>Amount</th>
+            <th>Status</th>
+            <th>Public Link</th>
+          </tr>
+        </thead>
+        <tbody>
+          {invoices.map((inv) => (
+            <tr key={inv.token}>
+              <td>{inv.number}</td>
+              <td>{inv.client}</td>
+              <td>{inr(invoiceTotal(inv))}</td>
+              <td>
+                <span className={`badge ${inv.status}`}>{inv.status}</span>
+              </td>
+              <td>
+                <Link href={`/invoice/${inv.token}`}>View invoice</Link>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </main>
   );
 }
